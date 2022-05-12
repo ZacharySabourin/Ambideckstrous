@@ -1,26 +1,24 @@
-import express, { json } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
+import express, { json } from 'express'
+import cors from 'cors'
+import helmet from 'helmet'
 
 import cardsRoutes from './middleware/routes/cards.route.mjs'
 
-import { logError, badRoute } from './middleware/error/errorHandler.mjs';
+import requestLogger from './middleware/log/logger.mjs'
+import { logError, badRoute } from './middleware/error/errorHandler.mjs'
 
-const server = express();
+const server = express()
 
-server.use(cors());
-server.use(json());
-server.use(helmet());
+server.use(cors())
+server.use(json())
+server.use(helmet())
 
-// server.use((req, res, next) => {
-//     console.log('Time: ', Date.now()) 
-//     next
-// })
+server.use(requestLogger)
 
 server.use('/api/v1/cards', cardsRoutes)
 
-server.use('*', badRoute);
+server.use('*', badRoute)
 
-server.use(logError);
+server.use(logError)
 
-export default server;
+export default server

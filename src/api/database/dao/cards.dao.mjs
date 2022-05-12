@@ -22,15 +22,33 @@ export default class CardsDao
         }
     }
 
-    static async getCardByFilter(filter = {})
+    static async getCardByFilter(bsonFilter = {})
     {
         try
         {
-            return await cards.findOne(filter);
+            return await cards.findOne(bsonFilter)
         }
         catch(err)
         {
-            throw err;
+            throw err
         }
+    }
+
+    static async getAllCardsByFilter({ bsonPipeline = {}, pageSize = 50, page = 0 } = {})
+    {
+        try
+        {
+            const cursor = cards.aggregate(bsonPipeline)
+            const displayCursor = cursor.limit(pageSize).skip(pageSize * page)
+
+            const result = await displayCursor.toArray()
+
+            return result
+        }
+        catch(err)
+        {
+            throw err
+        }
+
     }
 }
