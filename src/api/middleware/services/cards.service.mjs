@@ -21,22 +21,40 @@ export default class CardsService
     static async getAllCardsByText(queryParams)
     {
         const { text } = queryParams
-
-        const bsonPipeline = [{
-            $search: {
-                index: 'default',
-                text: {
-                    query: text,
-                    path: {
-                        wildcard: '*'
-                    }
-                }
-            }
-        }]
-
         const { pageSize } = queryParams
         const { page } = queryParams
+              
+        const bsonPipeline = [   
+            {
+                $search: {
+                    index: 'default',
+                    text: {
+                        query: text,
+                        path: {
+                            wildcard: '*'
+                        }
+                    }
+                }
+            },
+            {
+                $facet: {
+                    paginatedList: [
+                        { 
+                            $skip: page
+                        },
+                        { 
+                            $limit: pageSize
+                        }
+                    ],
+                    totalCount: [
+                        {
+                            $count: 'count'
+                        }
+                    ]
+                }
+            }
+        ]  
 
-        return CardsDao.getAllCardsByFilter({ bsonPipeline, pageSize, page })
+        return CardsDao.getAllCardsByPipeline({ bsonPipeline, pageSize, page })
     }
 }

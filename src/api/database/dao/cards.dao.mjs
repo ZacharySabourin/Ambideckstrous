@@ -34,21 +34,16 @@ export default class CardsDao
         }
     }
 
-    static async getAllCardsByFilter({ bsonPipeline = {}, pageSize = 50, page = 0 } = {})
+    static async getAllCardsByPipeline({ bsonPipeline = [], pageSize = 50, page = 0 } = {})
     {
         try
         {
             const cursor = cards.aggregate(bsonPipeline)
-            const displayCursor = cursor.limit(pageSize).skip(pageSize * page)
-
-            const result = await displayCursor.toArray()
-
-            return result
+            return await cursor.toArray()                 
         }
         catch(err)
         {
             throw err
         }
-
     }
 }

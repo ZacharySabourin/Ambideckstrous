@@ -45,11 +45,11 @@ export default class CardsController
         CardsService.getAllCardsByText(queryParams)
         .then(result => {
             res.json({
-                totalResults: result.length,
+                totalCount: result[0].totalCount[0].count,
                 page: queryParams.page,
                 searchQuery: queryParams.text,
                 pageSize: queryParams.pageSize,
-                cards: result
+                cards: result[0].paginatedList
             })            
         })
         .catch(next)
