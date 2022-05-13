@@ -1,4 +1,5 @@
 import CardsDao from "../../database/dao/cards.dao.mjs"
+import pipelineBuilder from "../util/pipeline.builder.mjs"
 
 export default class CardsService
 {
@@ -14,46 +15,6 @@ export default class CardsService
 
     static async getAllCardsByText(queryParams)
     {
-        const { text } = queryParams
-        const { pageSize } = queryParams
-        const { page } = queryParams
-              
-        const bsonPipeline = [   
-            {
-                $search: {
-                    index: 'default',
-                    text: {
-                        query: text,
-                        path: {
-                            wildcard: '*'
-                        }
-                    }
-                }
-            },
-            {
-                $facet: {
-                    cardList: [
-                        { 
-                            $skip: page
-                        },
-                        { 
-                            $limit: pageSize
-                        },
-                        {
-                            $sort: { 
-                                name: 1 
-                            }
-                        }
-                    ],
-                    totalCount: [
-                        {
-                            $count: 'count'
-                        }
-                    ]
-                }
-            }
-        ]  
-
-        return CardsDao.getAllCardsByPipeline(bsonPipeline)
+        return CardsDao.getAllCardsByPipeline(pipelineBuilder(queryParams))
     }
 }
