@@ -1,21 +1,15 @@
-import { query } from "express"
-import { ObjectId } from "mongodb"
 import CardsDao from "../../database/dao/cards.dao.mjs"
 
 export default class CardsService
 {
     static async getCardById(id)
     {
-        const filter = { _id: id }
-
-        return CardsDao.getCardByFilter(filter)
+        return CardsDao.getCardByFilter({ _id: id })
     }
 
     static async getCardByName(name)
     {
-        const filter = { name: name }
-
-        return CardsDao.getCardByFilter(filter)
+        return CardsDao.getCardByFilter({ name: name })
     }
 
     static async getAllCardsByText(queryParams)
@@ -38,12 +32,17 @@ export default class CardsService
             },
             {
                 $facet: {
-                    paginatedList: [
+                    cardList: [
                         { 
                             $skip: page
                         },
                         { 
                             $limit: pageSize
+                        },
+                        {
+                            $sort: { 
+                                name: 1 
+                            }
                         }
                     ],
                     totalCount: [
@@ -55,6 +54,6 @@ export default class CardsService
             }
         ]  
 
-        return CardsDao.getAllCardsByPipeline({ bsonPipeline, pageSize, page })
+        return CardsDao.getAllCardsByPipeline(bsonPipeline)
     }
 }

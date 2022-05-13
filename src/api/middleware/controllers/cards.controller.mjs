@@ -44,13 +44,18 @@ export default class CardsController
 
         CardsService.getAllCardsByText(queryParams)
         .then(result => {
-            res.json({
-                totalCount: result[0].totalCount[0].count,
-                page: queryParams.page,
-                searchQuery: queryParams.text,
-                pageSize: queryParams.pageSize,
-                cards: result[0].paginatedList
-            })            
+            
+            if(result.cardList.length === 0)
+                res.status(404).json({ error: "Nothing matches this text" })
+            
+            else
+                res.json({
+                    totalCount: result.count,
+                    page: queryParams.page,
+                    searchQuery: queryParams.text,
+                    pageSize: queryParams.pageSize,
+                    cards: result.cardList
+                })            
         })
         .catch(next)
     }

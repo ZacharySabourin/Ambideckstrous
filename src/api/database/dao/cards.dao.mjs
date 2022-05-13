@@ -1,7 +1,4 @@
-import { Console } from 'console'
-import mongodb from 'mongodb'
 
-const objectId = mongodb.ObjectId
 let cards
 
 export default class CardsDao
@@ -34,12 +31,20 @@ export default class CardsDao
         }
     }
 
-    static async getAllCardsByPipeline({ bsonPipeline = [], pageSize = 50, page = 0 } = {})
+    static async getAllCardsByPipeline(bsonPipeline = [])
     {
         try
         {
             const cursor = cards.aggregate(bsonPipeline)
-            return await cursor.toArray()                 
+            const result = await cursor.toArray()    
+          
+            const { cardList } = result[0] || []
+            let count = 0
+
+            if(cardList.length !== 0)
+                 count = result[0].totalCount[0].count
+
+            return { cardList, count }
         }
         catch(err)
         {

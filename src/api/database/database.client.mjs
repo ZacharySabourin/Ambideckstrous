@@ -1,4 +1,4 @@
-import mongodb, { MongoClient, ServerApiVersion } from 'mongodb'
+import mongodb, { ServerApiVersion } from 'mongodb'
 import CardsDao from './dao/cards.dao.mjs'
 
 const options = { 
