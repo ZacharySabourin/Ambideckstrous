@@ -3,8 +3,7 @@ export default class Logger
 {
     static async logRequest(req, res, next)
     {
-        console.log('Request made to:', req.url)
-        console.log('Time: ', Date.now())
+        console.log(Date.now(), ': Request made to:', req.url)
         next()
     }
 
