@@ -1,61 +1,33 @@
 import CardsService from "../services/cards.service.mjs"
-import extractQueryParams from "../util/query.param.extractor.mjs";
 
 export default class CardsController
 {
+    //GET /api/v1/cards/{id}
     static async getCardByIdEndpoint(req, res, next)
-    { 
-        const { id } = req.params || {};
-        if(!id)
-            res.status(400).json({ error: "Error parsing id" })
-        
-        CardsService.getCardById(id)
-        .then(card => {
-            if(!card)
-                res.status(404).json({ id: id, error: "Card not found" })
-            else
-                res.json(card)
+    {        
+        CardsService.getCardPesponseById(req.params || {})
+        .then(result => {
+            res.status(result.status).json(result.body)           
         })
         .catch(next)
     }
 
+    //GET /api/v1/cards/named/{name}
     static async getCardByNameEndpoint(req, res, next)
     {
-        const { name } = req.params || {}
-        if(!name)
-            res.status(400).json({ error: "Error parsing name" })
-
-        CardsService.getCardByName(name)
-        .then(card => {
-            if(!card)
-                res.status(404).json({ name: name, error: "Card not found" })
-            else
-                res.json(card)
+        CardsService.getCardResponseByName(req.params || {})
+        .then(result => {
+            res.status(result.status).json(result.body)           
         })
         .catch(next)
     }
 
+    //GET /api/v1/cards/search/?text={text}&pageSize={pageSize}&page={page}
     static async getCardsBySearchEndpoint(req, res, next)
     {
-        const queryParams = extractQueryParams(req.query)
-
-        if(!queryParams.text)
-            res.status(400).json({ error: "Not searching for anything!" })
-
-        CardsService.getAllCardsByText(queryParams)
+        CardsService.getAllCardsResponseByText(req.query || {})
         .then(result => {
-            
-            if(result.cardList.length === 0)
-                res.status(404).json({ error: "Nothing matches this text" })
-            
-            else
-                res.json({
-                    totalCount: result.count,
-                    page: queryParams.page,
-                    searchQuery: queryParams.text,
-                    pageSize: queryParams.pageSize,
-                    cards: result.cardList
-                })            
+            res.status(result.status).json(result.body)
         })
         .catch(next)
     }
