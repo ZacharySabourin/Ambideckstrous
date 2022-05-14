@@ -1,4 +1,4 @@
-import mongodb, { ServerApiVersion } from 'mongodb'
+import { MongoClient, ServerApiVersion } from 'mongodb'
 import CardsDao from './dao/cards.dao.mjs'
 
 const options = { 
@@ -7,18 +7,25 @@ const options = {
     serverApi: ServerApiVersion.v1
 };
 
-const client = mongodb.MongoClient
+let client
 
 export default class DatabaseClient
 {
     static async connect(uri)
     {
-        client.connect(uri, options)   
+        client = new MongoClient(uri)
+
+        client.connect()   
         .catch(err => {
             throw err
         })
         .then(async client => {
             await CardsDao.injectDb(client)
         })
+    }
+
+    static async disconnect()
+    {
+        await client.close()
     }
 };

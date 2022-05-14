@@ -1,23 +1,27 @@
 import { assert } from 'console';
 import request from 'supertest'
-import ServerPromise from '../src/app.mjs'
+import { ServerInitPromise, ServerClosePromise }from '../src/app.mjs'
 
 //Delay allows DB injection to happen before endpoints are hit
 const delay = async x => {
-    return new Promise(resolve => setTimeout(resolve, 3000, 2 * x))
+    return new Promise(resolve => setTimeout(resolve, 2000, 2 * x))
 };
 
 (async function () {
     
-    await delay(2)
+    await delay(1)
 
     describe("GET /api/v1/cards/e1187999-521d-4ed0-8673-6eb8f3c58bb8", function(done) {
 
         let loadedApp
 
         before("Loading app data", done => {
-            ServerPromise.catch(err => done(err)).then(app => loadedApp = app)
+            ServerInitPromise.catch(err => done(err)).then(app => loadedApp = app)
             done()
+        })
+
+        after("Closing app connections", done => {
+            ServerClosePromise.catch(err => done(err))
         })
 
         it("Testing Sol Ring by id", done => {

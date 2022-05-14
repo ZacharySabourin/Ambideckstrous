@@ -1,56 +1,48 @@
 import CardsDao from "../../database/dao/cards.dao.mjs"
 import pipelineBuilder from "../util/pipeline.builder.mjs"
 import extractQueryParams from "../util/query.param.extractor.mjs";
+import ResponseBuilder from '../util/response.builder.mjs'
 
 export default class CardsService
 {
-    static async getCardPesponseById(params)
+    static async getCardPesponseById(requestParams)
     {
-        const { id } = params || {};
+        const { id } = requestParams || {};
         if(!id)
-            return { status: 400, body: { id: id, error: "Error parsing id" }}
+            return ResponseBuilder.buildBadRequestResponse()
 
         const card = await CardsDao.getCardByFilter({ _id: id })
         if(!card)
-            return { status: 404, body: { id: id, error: "Card not found" }}
+            return ResponseBuilder.buildNotFoundResponse(id)
 
-        return { status: 200, body: card }
+        return ResponseBuilder.buildSingleCardOkResponse(card)
     }
 
-    static async getCardResponseByName(params)
+    static async getCardResponseByName(requestParams)
     {
-        const { name } = params || {};
+        const { name } = requestParams || {};
         if(!name)
-            return { status: 400, body: { name: name, error: "Error parsing name" }}
+            return ResponseBuilder.buildBadRequestResponse()
 
         const card = await CardsDao.getCardByFilter({ name: name })
         if(!card)
-            return { status: 404, body: { name: name, error: "Card not found" }}
+            return ResponseBuilder.buildNotFoundResponse(name)
 
-        return { status: 200, body: card }
+        return ResponseBuilder.buildSingleCardOkResponse(card)
     }
 
-    static async getAllCardsResponseByText(query)
+    static async getAllCardsResponseByText(requestQuery)
     {
-        const queryParams = extractQueryParams(query)
+        const queryParams = extractQueryParams(requestQuery)
         if(!queryParams.text)
-            return { status: 400, body: { error: "Not searching for anything!" }}
+            ResponseBuilder.buildBadSearchResponse()
 
         const pipeline = pipelineBuilder(queryParams)
         const result = await CardsDao.getAllCardsByPipeline(pipeline)
 
         if(result.cardList.length === 0)
-            return { status: 404, body: { error: "Nothing matches this text" }}
+            return ResponseBuilder.buildNotFoundResponse(text)
 
-        return {
-            status: 200,
-            body: {
-                totalCount: result.count,
-                page: queryParams.page,
-                searchQuery: queryParams.text,
-                pageSize: queryParams.pageSize,
-                cards: result.cardList
-            }
-        }
+        return ResponseBuilder.buildMultiCardOkResponse(result, queryParams)
     }
 }
