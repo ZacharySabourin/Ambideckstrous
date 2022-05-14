@@ -7,11 +7,17 @@ dotenv.config();
 const port = process.env.PORT;
 const uri = process.env.MONGO_URI;
 
-//Database connects here
-DatabaseClient.connect(uri).
-catch(err => {
-    console.error(err);
-    process.exit(1);
-});
+let ServerPromise
 
-server.listen(port, () => console.log('Listening on port ' + port));
+export default ServerPromise = new Promise((resolve, reject) => {
+    
+    DatabaseClient.connect(uri)
+    .catch(err => {
+        reject(err)
+    })
+    .then(() => {
+        resolve(server.listen(port, () => console.log('Listening on port ' + port)))
+    })
+})
+
+    

@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/app.mjs",
+  "type": "module",
   "scripts": {
+    "test": "mocha --delay",
     "start": "node main"
   },
-  "author": "",
+  "author": "Zachary Sabourin",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,6 +18,8 @@
     "mongodb": "^4.6.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.32"
+    "@types/node": "^17.0.32",
+    "mocha": "^10.0.0",
+    "supertest": "^6.2.3"
   }
 }
