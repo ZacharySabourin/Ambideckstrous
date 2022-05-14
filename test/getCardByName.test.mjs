@@ -10,7 +10,7 @@ const delay = async x => {
 (async function () {
     
     await delay(1)
-    
+
     let loadedApp
 
     before("Loading app data", done => {
@@ -20,33 +20,32 @@ const delay = async x => {
 
     after("Closing app connections", done => {
         closeServer()
-        loadedApp.close()
         done()
     })
 
-    describe("GET /api/v1/cards/{id}", function(done) {
+    describe("GET /api/v1/cards/named/{name}", function(done) {
 
-        it("Testing Sol Ring id", done => {
+        it("Testing Vandalblast", done => {
      
             request(loadedApp)
-            .get("/api/v1/cards/e1187999-521d-4ed0-8673-6eb8f3c58bb8")
+            .get("/api/v1/cards/named/Vandalblast")
             .expect(200)
             .end((err, res) => {
                 if (err) 
                     done(err)
                 else
                 {
-                    assert.equal(res.body._id, 'e1187999-521d-4ed0-8673-6eb8f3c58bb8')
-                    assert.equal(res.body.name, 'Sol Ring')
+                    assert.equal(res.body._id, '3636b07e-eab9-4cc8-8624-322c18e8133d')
+                    assert.equal(res.body.name, 'Vandalblast')
                     done()  
                 }                                   
             })              
         })
 
-        it("Testing invalid id", done => {
+        it("Testing invalid name", done => {
 
             request(loadedApp)
-            .get("/api/v1/cards/helloandgoodbye")
+            .get("/api/v1/cards/named/helloandgoodbye")
             .expect(404)
             .end((err, res) => {
                 if (err) 
@@ -56,10 +55,10 @@ const delay = async x => {
             })
         })
 
-        it("Testing no id", done => {
+        it("Testing no name", done => {
 
             request(loadedApp)
-            .get("/api/v1/cards/")
+            .get("/api/v1/cards/named")
             .expect(404)
             .end((err, res) => {
                 if (err) 
