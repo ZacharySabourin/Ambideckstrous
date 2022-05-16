@@ -1,3 +1,5 @@
+
+// @ts-check
 import { Router } from 'express';
 import CardsController from '../controllers/cards.controller.mjs';
 

@@ -1,4 +1,4 @@
-
+// @ts-check
 //Ensures defaults are set regardless of received input
 function attemptIntParse(value, defaultValue)
 {

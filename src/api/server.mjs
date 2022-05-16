@@ -1,3 +1,6 @@
+
+// @ts-check
+
 import express, { json } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'

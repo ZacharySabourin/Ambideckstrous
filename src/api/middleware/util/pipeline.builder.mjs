@@ -1,4 +1,5 @@
 
+// @ts-check
 export default function pipelineBuilder({ text, pageSize, page })
 {
     const pipeline = [   

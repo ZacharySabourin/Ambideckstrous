@@ -1,4 +1,4 @@
-
+// @ts-check
 let cards
 
 export default class CardsDao

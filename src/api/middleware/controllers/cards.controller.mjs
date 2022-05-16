@@ -1,3 +1,5 @@
+
+// @ts-check
 import CardsService from "../services/cards.service.mjs"
 
 export default class CardsController

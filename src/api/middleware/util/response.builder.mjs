@@ -1,37 +1,7 @@
+// @ts-check
 
 export default class ResponseBuilder
 {
-    static buildBadRequestResponse()
-    {
-        return { 
-            status: 400, 
-            body: { 
-                error: "Error parsing parameter" 
-            }
-        }
-    }
-
-    static buildBadSearchResponse()
-    {
-        return { 
-            status: 400, 
-            body: { 
-                error: "Not searching for anything!" 
-            }
-        }
-    }
-
-    static buildNotFoundResponse(param)
-    {
-        return { 
-            status: 404, 
-            body: { 
-                param: param, 
-                error: "Card(s) not found" 
-            }
-        }
-    }
-
     static buildSingleCardOkResponse(card)
     {
         return { 
@@ -50,6 +20,37 @@ export default class ResponseBuilder
                 searchQuery: queryParams.text,
                 pageSize: queryParams.pageSize,
                 cards: result.cardList
+            }
+        }
+    }
+
+    static buildBadRequestResponse()
+    {
+        return { 
+            status: 400, 
+            body: { 
+                error: "Invalid request parameters" 
+            }
+        }
+    }
+ 
+    static buildNotFoundResponse(param)
+    {
+        return { 
+            status: 404, 
+            body: { 
+                param: param, 
+                error: "Resource(s) not found" 
+            }
+        }
+    }
+
+    static buildInternalErrorResponse()
+    {
+        return { 
+            status: 500, 
+            body: { 
+                error: "Something Broke!" 
             }
         }
     }

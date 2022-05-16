@@ -1,14 +1,19 @@
 
+import ResponseBuilder from "../util/response.builder.mjs"
+
+// @ts-check
 export default class ErrorHandler
 {
     static async badRoute(req, res)
     {
-        res.status(404).json({ error : 'Resource not found'})
+        const result = ResponseBuilder.buildNotFoundResponse(req.params || {})
+        res.status(result.status).json(result.body)
     }
 
     static async internalError(err, req, res, next)
     {
-        res.status(500).send({ error: 'Something broke!' })
+        const result = ResponseBuilder.buildInternalErrorResponse()
+        res.status(result.status).send(result.body)
     }
 }
 

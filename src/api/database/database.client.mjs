@@ -1,3 +1,5 @@
+
+// @ts-check
 import { MongoClient, ServerApiVersion } from 'mongodb'
 import CardsDao from './dao/cards.dao.mjs'
 

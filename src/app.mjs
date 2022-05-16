@@ -1,3 +1,6 @@
+
+// @ts-check
+
 import dotenv from 'dotenv';
 import DatabaseClient from './api/database/database.client.mjs';
 import server from './api/server.mjs';

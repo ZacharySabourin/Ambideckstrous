@@ -1,4 +1,3 @@
-
 export default class Logger
 {
     static async logRequest(req, res, next)

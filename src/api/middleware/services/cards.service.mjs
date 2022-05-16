@@ -1,3 +1,5 @@
+
+// @ts-check
 import CardsDao from "../../database/dao/cards.dao.mjs"
 import pipelineBuilder from "../util/pipeline.builder.mjs"
 import extractQueryParams from "../util/query.param.extractor.mjs";
@@ -35,13 +37,13 @@ export default class CardsService
     {
         const queryParams = extractQueryParams(requestQuery)
         if(!queryParams.text)
-            ResponseBuilder.buildBadSearchResponse()
+            ResponseBuilder.buildBadRequestResponse()
 
         const pipeline = pipelineBuilder(queryParams)
         const result = await CardsDao.getAllCardsByPipeline(pipeline)
 
         if(result.cardList.length === 0)
-            return ResponseBuilder.buildNotFoundResponse(text)
+            return ResponseBuilder.buildNotFoundResponse(queryParams.text)
 
         return ResponseBuilder.buildMultiCardOkResponse(result, queryParams)
     }
