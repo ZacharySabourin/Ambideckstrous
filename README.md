@@ -1,7 +1,5 @@
 # Ambideckstrous
 
-This is my current on-going project.
-
 It's currently a REST api service that is still very limited but will function something like Scryfall. 
 (This isn't supposed to be for any monetary gain or competition or anything. I'm just doing this to learn) 
 
@@ -15,4 +13,3 @@ These things include:
   - Docker
   - Testing with Mocha and supertest
   - Implementing TypeScript
-  - Reactjs and front-end development
