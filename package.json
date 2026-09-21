@@ -1,27 +1,25 @@
 {
   "name": "ambideckstrous",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "src/app.mjs",
-  "type": "module",
+  "description": "MTG card search app (and eventual deck builder) — Express/MongoDB backend + React frontend",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
-    "test": "mocha --delay",
-    "start": "node main"
+    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "build:backend": "npm run build -w backend",
+    "build:frontend": "npm run build -w frontend",
+    "test": "npm run test -w backend",
+    "typecheck": "npm run typecheck -w backend && npm run build -w frontend"
   },
   "author": "Zachary Sabourin",
   "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "helmet": "^5.0.2",
-    "mongodb": "^4.6.0"
-  },
   "devDependencies": {
-    "@types/node": "^17.0.32",
-    "body-parser": "^1.20.0",
-    "mocha": "^10.0.0",
-    "supertest": "^6.2.3",
-    "typescript": "^4.6.4"
+    "concurrently": "^9.1.0"
   }
 }
