@@ -1,0 +1,39 @@
+{
+  "name": "ambideckstrous-server",
+  "version": "1.0.0",
+  "description": "Express + MongoDB REST API for Ambideckstrous",
+  "main": "dist/app.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/app.js",
+    "typecheck": "tsc --noEmit",
+    "test": "mocha"
+  },
+  "author": "Zachary Sabourin",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "mongodb": "^6.17.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.0",
+    "@types/supertest": "^6.0.2",
+    "mocha": "^11.1.0",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2"
+  }
+}
