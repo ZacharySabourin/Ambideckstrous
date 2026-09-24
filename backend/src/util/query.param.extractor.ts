@@ -1,4 +1,4 @@
-import type { QueryParams } from '../../database/dao/card.types.js';
+import type { QueryParams } from '../models/card.types.js';
 
 // Ensures defaults are set regardless of received input
 function attemptIntParse(value: unknown, defaultValue: number): number {

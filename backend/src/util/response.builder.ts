@@ -1,4 +1,4 @@
-import type { Card, CardListResult, QueryParams } from '../../database/dao/card.types.js';
+import type { Card, CardListResult, QueryParams } from '../models/card.types.js';
 
 export interface ApiResponse<TBody = unknown> {
     status: number;
