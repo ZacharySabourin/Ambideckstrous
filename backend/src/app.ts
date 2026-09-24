@@ -1,24 +1,29 @@
-import dotenv from 'dotenv';
-import type { Server } from 'http';
-import DatabaseClient from './api/database/database.client.js';
-import server from './api/server.js';
+import express, { json } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
 
-dotenv.config();
+import cardsRoutes from './routes/cards.route.js';
 
-const port = process.env.PORT;
-const uri = process.env.MONGO_URI as string;
-let loadedServer: Server;
+import Logger from './util/logger.js';
+import ErrorHandler from './middleware/error.handler.js';
 
-export const ServerInitPromise = new Promise<Server>((resolve, reject) => {
-    DatabaseClient.connect(uri)
-        .catch((err) => reject(err))
-        .then(() => resolve((loadedServer = server.listen(port, () => console.log('Listening on port ' + port)))));
-});
+const app = express();
 
-export function closeServer(): void {
-    DatabaseClient.disconnect().then(() => {
-        loadedServer.close(() => {
-            console.log('server closed');
-        });
-    });
-}
+app.use(cors());
+app.use(json());
+app.use(helmet());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(Logger.logRequest);
+
+app.use('/api/v1/cards', cardsRoutes);
+
+app.use(ErrorHandler.badRoute);
+
+app.use(Logger.logError);
+app.use(ErrorHandler.internalError);
+
+export default app;

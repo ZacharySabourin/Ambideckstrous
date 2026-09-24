@@ -1,5 +1,5 @@
 import type { Collection, Document, Filter, MongoClient } from 'mongodb';
-import type { Card, CardListResult } from './card.types.js';
+import type { Card, CardListResult } from '../models/card.types.js';
 
 let cards: Collection<Card>;
 

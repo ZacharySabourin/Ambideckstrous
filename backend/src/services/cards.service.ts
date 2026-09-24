@@ -1,4 +1,4 @@
-import CardsDao from '../../database/dao/cards.dao.js';
+import CardsDao from './cards.dao.js';
 import pipelineBuilder from '../util/pipeline.builder.js';
 import extractQueryParams from '../util/query.param.extractor.js';
 import ResponseBuilder, { type ApiResponse } from '../util/response.builder.js';

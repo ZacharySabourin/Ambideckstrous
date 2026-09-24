@@ -1,5 +1,5 @@
 import type { Document } from 'mongodb';
-import type { QueryParams } from '../../database/dao/card.types.js';
+import type { QueryParams } from '../models/card.types.js';
 
 export default function pipelineBuilder({ text, pageSize, page }: QueryParams): Document[] {
     const pipeline: Document[] = [
